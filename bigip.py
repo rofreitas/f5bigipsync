@@ -16,19 +16,26 @@ class Bigip():
 
     def setVip(self,vsname):
         self.vip = self.mgmt.tm.ltm.virtuals.virtual.load(name=vsname)
+        print("Virtual Server: "+ vsname)
 
     def getPool(self):
         self.pool = self.mgmt.tm.ltm.pools.pool.load(name=self.vip.pool.split("/")[2],partition='Common')
-        print(self.vip.pool.split("/")[1])
-        print(self.vip.pool.split("/")[2])
+        #self.pool = self.mgmt.tm.ltm.pools.pool.load(name=self.pool)
+        #print(self.vip.pool.split("/")[1])
+        print("Pool: " + self.vip.pool.split("/")[2])        
 
     def getRule(self):
         rules = self.vip.rules
         for rule in rules:
-            print(rule.strip('/Common'))
+            print("iRule :" + rule.strip('/Common'))
 
     def getMembers(self):
         members = self.pool.members_s.get_collection()
         for member in members:
-            print member.address
+            print ("Member: " + member.name + " - " + member.address)
 
+    def getGroups(self):
+        dgroups= self.mgmt.tm.ltm.data_group.internals.get_collection()
+        for group in dgroups:
+            print(group.name)
+            print(group.records)
