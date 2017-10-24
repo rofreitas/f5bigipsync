@@ -17,7 +17,9 @@ class Bigip():
     def setVip(self,vsname):
         self.vip = self.mgmt.tm.ltm.virtuals.virtual.load(name=vsname)
         print("Virtual Server: "+ vsname)
-
+        #print(self.vip.raw)
+        
+        
     def getPool(self):
         self.pool = self.mgmt.tm.ltm.pools.pool.load(name=self.vip.pool.split("/")[2],partition='Common')
         #self.pool = self.mgmt.tm.ltm.pools.pool.load(name=self.pool)
@@ -27,7 +29,7 @@ class Bigip():
     def getRule(self):
         rules = self.vip.rules
         for rule in rules:
-            print("iRule :" + rule.strip('/Common'))
+            print("iRule :" + rule.strip('/Common'))                     
 
     def getMembers(self):
         members = self.pool.members_s.get_collection()
@@ -35,7 +37,7 @@ class Bigip():
             print ("Member: " + member.name + " - " + member.address)
 
     def getGroups(self):
-        dgroups= self.mgmt.tm.ltm.data_group.internals.get_collection()
+        dgroups= self.vip.Policies_s()
         for group in dgroups:
             print(group.name)
-            print(group.records)
+            

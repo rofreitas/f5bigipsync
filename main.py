@@ -11,7 +11,6 @@ import argparse
 import getpass
 
 
-
 class Main():
     def get_args():
         parser = argparse.ArgumentParser()
@@ -39,10 +38,11 @@ class Main():
 
     bigip = Bigip(args.address,args.user,args.password)
     bigip.openConnection()
+    #bigip.setVip("vs_dev_freedom_shopvasco_80")
     bigip.setVip("vs_netshoes_production_80")
     #bigip.getPool()
     bigip.getRule()
     #bigip.getMembers()
-    bigip.getGroups()
+    #bigip.getGroups()
 
 
